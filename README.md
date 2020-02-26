@@ -4,10 +4,12 @@
 
 ### Python 3.x
 
+Just clone this repo to your project module and use it.
+
 ### Example with Flask:
 ```python
 from flask import request, jsonify, g
-from ez_forms import form_check_for_result
+from ez_form import form_check_for_result
 
 @app.route('/contact-form', methods=['POST'])
 def post_some_view():
@@ -17,13 +19,13 @@ def post_some_view():
 
 
 # forms.py
-import forms_ext
+import ez_form
 
 
-class ContactForm(ez_forms.BaseForm):
-    name = ez_forms.TextField(required=True)
-    gender = ez_forms.ChoiceField(choices=('M', 'F'), required=True)
-    age = ez_forms.IntegerField(min_value=18)
+class ContactForm(ez_form.BaseForm):
+    name = ez_form.TextField(required=True)
+    gender = ez_form.ChoiceField(choices=('M', 'F'), required=True)
+    age = ez_form.IntegerField(min_value=18)
     
     def validate_business(self):
         # TODO: some database query...
@@ -38,8 +40,9 @@ class ContactForm(ez_forms.BaseForm):
         if self.age.data > 150:
             self.add_error('age', 'You are to old')
 
-    def save(self):
+    def save(self) -> Dict:
         # TODO: save to database:
         some_extra_value = self.kwargs['some_extra_value']
         print(f'the value: {some_extra_value}')
+        return {'id': 1}
 ```

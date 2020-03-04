@@ -1,4 +1,4 @@
-from typing import Optional, Dict
+from typing import Optional, Dict, Tuple
 from collections import OrderedDict
 
 from .fields import Field
@@ -7,7 +7,7 @@ from .validators import ValidationError
 
 __all__ = (
     'BaseForm',
-    'form_check_for_result'
+    'check_form_for_result'
 )
 
 
@@ -83,7 +83,7 @@ class BaseForm(object, metaclass=EzMetaClass):
             self._errors[field] = error
 
 
-def form_check_for_result(form: BaseForm, http_status=201):
+def check_form_for_result(form: BaseForm, http_status=201) -> Tuple[Dict, int]:
     if form.is_ok():
         if http_status == 201:
             result = form.save()
